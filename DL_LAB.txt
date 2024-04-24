@@ -1,0 +1,827 @@
+1
+
+1---------------
+1)import numpy as np: Imports the NumPy library and assigns it the alias np, allowing you to use NumPy functions and objects in your code.
+
+2)import pandas as pd: Imports the Pandas library and assigns it the alias pd, allowing you to use Pandas functions and objects in your code.
+
+3)import matplotlib.pyplot as plt: Imports the pyplot module from the Matplotlib library and assigns it the alias plt, allowing you to create plots and visualizations.
+
+4)import seaborn as sns: Imports the Seaborn library and assigns it the alias sns, which is used for statistical data visualization
+
+5)data_url = "http://lib.stat.cmu.edu/datasets/boston": This line creates a variable data_url and assigns it the URL of the dataset to be used. In this case, it's the Boston housing dataset, which is hosted on the Carnegie Mellon University's website.
+
+
+6)raw_df = pd.read_csv(data_url, sep="\s+", skiprows=22, header=None): Here, pd.read_csv() function from Pandas is used to read the dataset from the URL specified in data_url. Parameters used:
+
+7)sep="\s+": This parameter specifies the separator used in the dataset. \s+ indicates one or more whitespace characters as the separator.
+
+8)skiprows=22: This parameter skips the first 22 rows of the dataset.
+
+9)header=None: This parameter indicates that the dataset doesn't contain a header row.
+
+10)data = np.hstack([raw_df.values[::2, :], raw_df.values[1::2, :2]]): This line constructs the data array by horizontally stacking two parts of the raw_df DataFrame:
+
+11)raw_df.values[::2, :]: Selects every other row (starting from the first row) from raw_df and includes all columns.
+
+12)raw_df.values[1::2, :2]: Selects every other row (starting from the second row) from raw_df and includes only the first two columns.
+
+13)np.hstack(): Stacks these two parts horizontally, combining them into a single array.
+
+14)target = raw_df.values[1::2, 2]: This line assigns the target variable by selecting every other row (starting from the second row) from the raw_df DataFrame and taking the value from the third column (index 2) of those rows. This typically corresponds to the target variable in machine learning tasks, often representing the variable we want to predict.
+
+
+from sklearn.model_selection import train_test_split: This line imports a function called train_test_split from the model_selection module of the scikit-learn library. This function is used to split datasets into two subsets: one for training a machine learning model and the other for testing its performance.
+
+from sklearn.preprocessing import StandardScaler: This line imports the StandardScaler class from the preprocessing module of scikit-learn. StandardScaler is used for standardizing features by removing the mean and scaling to unit variance. It's a common preprocessing step in machine learning to make sure all features have the same scale.
+
+from sklearn.metrics import r2_score: This line imports the r2_score function from the metrics module of scikit-learn. r2_score computes the R^2 (coefficient of determination) regression score, which measures how well the predictions of a model match the actual outcomes. It's a way to evaluate the performance of regression models.
+
+from sklearn.metrics import mean_squared_error: This line imports the mean_squared_error function from the metrics module of scikit-learn. mean_squared_error computes the mean squared error regression loss, which measures the average squared difference between the predicted values and the actual values. It's another commonly used metric to evaluate regression models.
+
+import keras: This line imports the Keras library, which is a high-level neural networks API written in Python. Keras provides an easy-to-use interface for building and training neural network models.
+
+from keras.layers import Dense, Activation, Dropout: This line imports three classes (Dense, Activation, and Dropout) from the layers module of Keras.
+
+Dense represents a fully connected layer in a neural network.
+
+Activation represents an activation function applied to the output of a layer.
+
+Dropout represents a regularization technique where randomly selected neurons are ignored during training to prevent overfitting.
+
+from keras.models import Sequential: This line imports the Sequential class from the models module of Keras. Sequential is a linear stack of layers used to build neural network models layer by layer.
+
+import warnings: This line imports the warnings module, which is used to handle warnings generated during program execution.
+
+warnings.filterwarnings("ignore"): This line sets the filter for ignoring warnings, preventing them from being displayed during program execution. It's commonly used to suppress unnecessary warning messages.
+
+
+---------------------
+2
+This code snippet is about loading the Boston housing dataset from a URL, processing it, and creating a DataFrame to work with. Here's a breakdown:
+
+
+
+import pandas as pd and import numpy as np: These lines import the Pandas and NumPy libraries, respectively. Pandas is used for data manipulation and analysis, while NumPy is used for numerical computations.
+
+data_url = "http://lib.stat.cmu.edu/datasets/boston": This line sets the URL of the Boston housing dataset.
+
+raw_df = pd.read_csv(data_url, sep="\s+", skiprows=22, header=None): This line reads the dataset from the specified URL using Pandas' read_csv() function. It skips the first 22 rows, treats consecutive whitespace characters as separators, and doesn't consider any header in the dataset. The resulting DataFrame is stored in raw_df.
+
+data = np.hstack([raw_df.values[::2, :], raw_df.values[1::2, :2]]): This line constructs the data array by horizontally stacking two parts of the raw_df DataFrame. The first part includes every other row starting from the first row, and all columns. The second part includes every other row starting from the second row, but only the first two columns. NumPy's hstack() function is used for stacking.
+
+target = raw_df.values[1::2, 2]: This line extracts the target variable from the second part of the raw_df DataFrame. It selects every other row starting from the second row, and specifically takes the values from the third column (index 2). This typically represents the house prices in the Boston housing dataset.
+
+columns = ["CRIM", "ZN", "INDUS", ...]: This line defines a list of column names corresponding to the features in the dataset.
+
+data = pd.DataFrame(data, columns=columns): This line creates a DataFrame called data using the processed data array (data) and the column names defined earlier (columns).
+
+data["PRICE"] = target: This line adds a new column named "PRICE" to the DataFrame data and assigns it the values stored in the target variable. This column represents the house prices in the dataset.
+
+data.head(): Finally, this line displays the first few rows of the DataFrame data to inspect the loaded data and ensure everything looks correct.
+
+3--------------------
+
+print(data.shape): This line prints the shape of the DataFrame data, which is the number of rows and columns it contains. It helps you understand the size of your dataset, where the number of rows represents the number of instances or samples, and the number of columns represents the number of features or variables.
+
+print(data.dtypes): This line prints the data types of each column in the DataFrame data. Data types can include integers, floats (decimal numbers), strings (object), etc. Understanding the data types is crucial for knowing how to process and analyze the data effectively.
+
+print(data.isnull().sum()): This line checks for missing values in each column of the DataFrame data. It returns the sum of missing values for each column. Missing values can be a common issue in datasets and need to be handled appropriately during data preprocessing.
+
+print(data.describe()): This line generates descriptive statistics of the numerical columns in the DataFrame data. It includes count (number of non-null values), mean, standard deviation, minimum, 25th percentile (Q1), median (50th percentile or Q2), 75th percentile (Q3), and maximum values. These statistics provide insights into the central tendency, dispersion, and distribution of the numerical data.
+
+
+4-----------------------
+
+
+sns.displot(data.PRICE): This line creates a histogram (distribution plot) using Seaborn's displot() function. It visualizes the distribution of the 'PRICE' column in the dataset. Essentially, it shows how the house prices are distributed across different price ranges.
+
+correlation = data.corr(): This line calculates the correlation matrix for all pairs of numerical variables in the DataFrame data. The correlation matrix measures the strength and direction of linear relationships between variables.
+
+correlation.loc['PRICE']: This line retrieves the correlation coefficients between the 'PRICE' variable and all other variables in the dataset. It shows how strongly each variable is correlated with the house prices.
+
+fig,axes = plt.subplots(figsize=(15,12)): This line creates a figure and a set of subplots using Matplotlib's subplots() function. It specifies the size of the figure to be created (15 inches wide and 12 inches tall).
+
+sns.heatmap(correlation,square = True,annot = True): This line generates a heatmap using Seaborn's heatmap() function. Heatmaps are graphical representations of data where the individual values in a matrix are represented as colors. Here, the correlation matrix correlation is visualized as a heatmap. Each cell in the heatmap represents the correlation coefficient between two variables, with color indicating the strength and direction of the correlation. The square=True parameter ensures that each cell is square-shaped, and annot=True adds numerical annotations to each cell displaying the correlation coefficients.
+
+
+5--------------------------
+
+X = data.iloc[:,:-1]:
+
+This line selects all the rows and all columns except the last one from the DataFrame data.
+
+It's assuming that the last column ('PRICE') is the target variable, so it's excluding it from the features.
+
+y = data.PRICE:
+
+This line selects the 'PRICE' column from the DataFrame data and assigns it to the variable y.
+
+y will be used to hold the target variable (house prices).
+
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.2, random_state = 4):
+
+This line splits the dataset into training and testing sets using the train_test_split() function from scikit-learn.
+
+It takes the feature data (X) and the target variable (y) as input.
+
+test_size = 0.2 indicates that 20% of the data will be used for testing, while the remaining 80% will be used for training.
+
+random_state = 4 sets a random seed for reproducibility, ensuring that the same random split is obtained each time the code is run.
+
+sc = StandardScaler():
+
+This line creates an instance of the StandardScaler class from scikit-learn.
+
+StandardScaler is used to standardize the features by removing the mean and scaling to unit variance.
+
+X_train = sc.fit_transform(X_train) and X_test = sc.transform(X_test):
+
+These lines apply the standardization transformation to the training and testing feature sets, respectively.
+
+.fit_transform() method fits the scaler to the training data and then transforms it.
+
+.transform() method applies the same transformation to the testing data, using the parameters learned from the training data.
+
+
+6-------------------------------
+
+model.add(Dense(64,activation = 'relu')), model.add(Dense(32,activation = 'relu')), model.add(Dense(16,activation = 'relu')):
+
+These lines add additional dense layers to the model, each with a decreasing number of neurons (64, 32, and 16 respectively).
+
+Each layer uses the ReLU activation function.
+
+model.add(Dense(1)):
+
+This line adds the output layer to the model.
+
+Since this is a regression problem (predicting house prices), the output layer has a single neuron.
+
+The output layer typically does not have an activation function for regression tasks.
+
+model.compile(optimizer = 'adam',loss = 'mean_squared_error'):
+
+This line configures the learning process for the model.
+
+It specifies the optimizer as 'adam', which is an efficient gradient descent optimization algorithm.
+
+The loss function is set to 'mean_squared_error', which computes the mean of the squared differences between the predicted and actual values. This is commonly used for regression problems.
+
+model.summary():
+
+This line prints a summary of the model architecture, including the type of each layer, the output shape of each layer, and the number of parameters (weights and biases) in each layer.
+
+It provides a concise overview of the model's structure, helping you understand the number of layers, the number of neurons in each layer, and the total number of trainable parameters in the model.
+
+
+7----------------------------
+
+model.fit(X_train, y_train, epochs=100):
+
+model.fit() is a method in Keras used to train the model.
+
+X_train is the input features of the training data.
+
+y_train is the target variable (house prices) of the training data.
+
+epochs=100 specifies the number of times the entire training dataset will be passed forward and backward through the neural network. Each pass is called an epoch.
+
+During each epoch, the model learns from the training data, adjusting its weights and biases to minimize the loss function (mean squared error in this case) and improve its predictive performance.
+
+After 100 epochs, the model will have gone through the training data 100 times, gradually improving its performance through each iteration.
+
+The fit() method updates the model parameters (weights and biases) based on the training data and the optimization algorithm (in this case, 'adam') specified during model compilation.
+
+
+8---------------------------------
+
+last one 
+
+
+y_pred = model.predict(X_test):
+
+This line predicts the house prices using the trained neural network model and the testing data (X_test).
+
+The model takes the testing features as input and predicts the corresponding house prices (y_pred).
+
+r2 = r2_score(y_test, y_pred):
+
+This line calculates the R^2 (coefficient of determination) score to evaluate the model's performance.
+
+r2_score() is a function from scikit-learn that computes the R^2 score between the true house prices (y_test) and the predicted prices (y_pred).
+
+R^2 score measures how well the model's predictions explain the variance in the actual house prices. It ranges from 0 to 1, where 1 indicates a perfect prediction.
+
+rmse = (np.sqrt(mean_squared_error(y_test, y_pred))):
+
+This line calculates the root mean squared error (RMSE) to assess the model's performance.
+
+mean_squared_error() computes the mean squared error between the true house prices (y_test) and the predicted prices (y_pred).
+
+np.sqrt() takes the square root of the mean squared error to obtain the RMSE.
+
+RMSE represents the average difference between the predicted and actual house prices, providing a measure of the model's prediction accuracy.
+
+print("R2 Score = ", r2):
+
+This line prints the R^2 score, indicating how well the model's predictions match the actual house prices. A higher R^2 score indicates better model performance.
+
+print("RMSE Score = ", rmse):
+
+This line prints the RMSE score, which represents the average prediction error of the model. Lower RMSE values indicate better predictive accuracy.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2
+
+1
+
+import numpy as np: Imports the NumPy library and assigns it the alias np, which is commonly used for numerical computations and array manipulations.
+
+from numpy.ma.core import argmax: Imports the argmax function from the NumPy masked array module. argmax is used to find the indices of the maximum values along an axis.
+
+import pandas as pd: Imports the Pandas library and assigns it the alias pd, which is used for data manipulation and analysis, particularly with tabular data.
+
+from matplotlib import cm: Imports the cm module from the Matplotlib library, which contains various color maps for visualizations.
+
+import matplotlib.pyplot as plt: Imports the pyplot module from the Matplotlib library and assigns it the alias plt, which is used for creating visualizations such as plots and charts.
+
+%matplotlib inline: This is a magic command in Jupyter Notebook or Jupyter Lab that allows Matplotlib plots to be displayed directly within the notebook.
+
+import seaborn as sns: Imports the Seaborn library and assigns it the alias sns, which is used for statistical data visualization. Seaborn provides an interface for creating attractive and informative plots.
+
+import time: Imports the time module, which provides various time-related functions such as measuring execution time.
+
+from sklearn.metrics import confusion_matrix, accuracy_score, auc: Imports specific functions and metrics from the scikit-learn library, including confusion matrix, accuracy score, and area under the curve (AUC) metric. These metrics are commonly used for evaluating classification models.
+
+from keras.preprocessing import sequence: Imports the sequence module from Keras, which provides utilities for sequence data preprocessing and padding.
+
+from keras.models import Sequential: Imports the Sequential class from Keras, which is used to create sequential neural network models layer by layer.
+
+from keras.layers import Dense, Dropout, Activation: Imports layers such as dense (fully connected), dropout, and activation functions from Keras. These layers are building blocks for constructing neural network architectures.
+
+from keras.layers import Embedding: Imports the Embedding layer from Keras, which is commonly used in natural language processing (NLP) tasks for representing words as dense vectors.
+
+from keras.layers import Conv1D, GlobalMaxPooling1D: Imports the Conv1D and GlobalMaxPooling1D layers from Keras. These layers are used for one-dimensional convolutional neural networks (CNNs) often applied to sequence data such as text or time series.
+
+from keras.callbacks import EarlyStopping: Imports the EarlyStopping callback from Keras, which allows training to be stopped early based on certain conditions, such as no improvement in validation loss.
+
+from keras import models: Imports the models module from Keras, which provides additional functionalities related to building and training neural network models.
+
+from keras import layers: Imports the layers module from Keras, which contains various types of layers that can be used to build neural network architectures.
+
+from keras.datasets import imdb: Imports the IMDb movie reviews dataset from Keras, which is commonly used for sentiment analysis tasks in natural language processing.
+
+
+2---------------
+
+
+Loading the Dataset:
+
+(X_train, y_train), (X_test, y_test) = imdb.load_data(): This line loads the IMDb movie reviews dataset using Keras' built-in load_data() function. It splits the dataset into training and testing sets, where X_train and X_test contain the reviews (encoded as sequences of words), and y_train and y_test contain the corresponding sentiment labels (0 for negative, 1 for positive).
+
+Combining the Data:
+
+X = np.concatenate((X_train, X_test), axis=0): Concatenates the training and testing data along the first axis (axis=0), combining them into a single array X containing all the movie reviews.
+
+y = np.concatenate((y_train, y_test), axis=0): Concatenates the training and testing labels, resulting in a single array y containing all the sentiment labels corresponding to the movie reviews in X.
+
+Exploring the Data:
+
+print("Training data: "): Prints a header indicating the start of the exploration of the training data.
+
+print(X.shape): Prints the shape of the combined movie reviews data (X), showing the number of reviews and the length of each review.
+
+print(y.shape): Prints the shape of the combined sentiment labels data (y), showing the number of sentiment labels.
+
+print("Classes: "): Prints a header indicating the start of displaying the unique classes (sentiments).
+
+print(np.unique(y)): Prints the unique classes in the sentiment labels (y), which are 0 (negative sentiment) and 1 (positive sentiment).
+
+print("Number of words: "): Prints a header indicating the start of displaying the number of unique words in the dataset.
+
+print(len(np.unique(np.hstack(X)))): Prints the number of unique words in the entire dataset by flattening all the movie reviews into a single array, finding the unique words, and then counting them.
+
+print("Review length: "): Prints a header indicating the start of displaying the review lengths.
+
+result = [len(x) for x in X]: Calculates the length of each movie review and stores it in the list result.
+
+print("Mean %.2f words (%f)" % (np.mean(result), np.std(result))): Prints the mean and standard deviation of the review lengths, providing insights into the average length of the movie reviews.
+
+plt.boxplot(result): Creates a boxplot to visualize the distribution of review lengths.
+
+plt.show(): Displays the boxplot.
+
+
+3-----------------------
+
+
+sequences: This parameter represents a list of sequences, where each sequence is a list of integers. Each integer corresponds to a word's index in a dictionary or vocabulary.
+
+dimension: This parameter specifies the size of the vocabulary or the total number of unique words in the dataset. It defaults to 5000, meaning it assumes there are 5000 unique words in the dataset.
+
+Creating Zero Matrix:
+
+results = np.zeros((len(sequences), dimension)): This line initializes a matrix of all zeros with a shape determined by the number of sequences (rows) and the dimension (columns). Each row in this matrix will represent a sequence, and each column will represent a word in the vocabulary.
+
+Vectorizing Sequences:
+
+The function then iterates over each sequence in the sequences list using a for loop.
+
+for i, sequence in enumerate(sequences):: This loop iterates over each sequence, where i represents the index of the sequence in the sequences list, and sequence represents the actual sequence of integers.
+
+results[i, sequence] = 1.: For each sequence, it sets specific indices in the corresponding row of the results matrix to 1. These indices correspond to the positions of words in the vocabulary. This process effectively converts each sequence of words into a binary vector representation, where 1 indicates the presence of a word in the sequence and 0 indicates absence.
+
+Output:
+
+Finally, the function returns the results matrix, which contains the vectorized representations of all the input sequences.
+
+
+4--------------------------
+
+Loading the Dataset:
+
+(train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=5000): This line loads the IMDb movie reviews dataset using Keras' load_data() function. It splits the dataset into training and testing sets, where train_data and test_data contain the reviews encoded as sequences of words, and train_labels and test_labels contain the corresponding sentiment labels (0 for negative, 1 for positive).
+
+num_words=5000 limits the vocabulary size to the top 5000 most frequent words in the dataset. This helps in reducing the input dimensionality and computational complexity.
+
+Vectorizing the Data:
+
+x_train = vectorize_sequences(train_data): This line vectorizes the training data using the previously defined vectorize_sequences function. It converts each sequence of words into a binary vector representation, where each word's presence in the sequence is indicated by a 1.
+
+x_test = vectorize_sequences(test_data): Similarly, this line vectorizes the testing data using the same vectorize_sequences function.
+
+One-Hot Encoding the Labels:
+
+y_train = np.asarray(train_labels).astype('float32'): This line converts the training labels from integers (0 and 1) to floating-point numbers and stores them in y_train. This step is necessary for compatibility with some machine learning models and loss functions.
+
+y_test = np.asarray(test_labels).astype('float32'): Similarly, this line converts the testing labels and stores them in y_test
+
+
+5-------------------------
+
+Creating the Model:
+
+model = models.Sequential(): This line creates a sequential model using the Keras Sequential() class. A sequential model allows you to create neural networks layer by layer, where each layer follows the previous one.
+
+Adding Layers:
+
+model.add(layers.Dense(32, activation='relu', input_shape=(5000,))): This line adds a dense (fully connected) layer to the model with 32 neurons (units). The activation function used is ReLU (Rectified Linear Unit), which introduces non-linearity to the model.
+
+input_shape=(5000,) specifies the shape of the input data, which is a binary vector of length 5000 representing the vocabulary size (number of unique words).
+
+This is the first layer added to the model, so it also specifies the input shape of the data.
+
+Adding More Layers:
+
+model.add(layers.Dense(32, activation='relu')): This line adds another dense layer with 32 neurons and ReLU activation function. This layer follows the first layer and is connected to its output.
+
+This additional layer allows the model to learn more complex patterns and relationships in the data.
+
+Output Layer:
+
+model.add(layers.Dense(1, activation='sigmoid')): This line adds the output layer to the model. It has a single neuron with a sigmoid activation function.
+
+The sigmoid activation function squashes the output between 0 and 1, representing the probability of the review being positive sentiment.
+
+Since this is a binary classification problem (positive or negative sentiment), a single neuron with sigmoid activation is sufficient.
+
+
+6-------------------
+
+Setting Validation Set Aside:
+
+x_val = x_train[:10000]: This line creates a validation set (x_val) by taking the first 10,000 samples from the training data (x_train).
+
+y_val = y_train[:10000]: Similarly, this line creates a validation set (y_val) by taking the first 10,000 labels from the training labels (y_train).
+
+The validation set is used to evaluate the model's performance during training. It helps to monitor the model's generalization and detect overfitting.
+
+Partial Training Set:
+
+partial_x_train = x_train[10000:]: This line creates a partial training set (partial_x_train) by excluding the first 10,000 samples from the training data (x_train).
+
+partial_y_train = y_train[10000:]: Similarly, this line creates a partial training set (partial_y_train) by excluding the first 10,000 labels from the training labels (y_train).
+
+The partial training set is the portion of the data used for training the model. It's called "partial" because it contains a subset of the original training data.
+
+
+7-----------------------
+
+
+Compiling the Model:
+
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc']): This line compiles the model for training.
+
+optimizer='adam': This specifies the optimization algorithm used during training. Adam is an efficient optimization algorithm commonly used for training neural networks.
+
+loss='binary_crossentropy': This specifies the loss function used to measure the difference between the model's predictions and the actual labels. Binary crossentropy is commonly used for binary classification tasks.
+
+metrics=['acc']: This specifies the evaluation metric to be monitored during training. Here, it's accuracy ('acc'), which measures the proportion of correctly classified samples.
+
+Training the Model:
+
+history = model.fit(partial_x_train, partial_y_train, epochs=20, batch_size=512, validation_data=(x_val, y_val)): This line trains the model using the training data (partial_x_train and partial_y_train).
+
+epochs=20: This specifies the number of times the entire training dataset will be passed forward and backward through the neural network during training. Each pass is called an epoch, and here the model will be trained for 20 epochs.
+
+batch_size=512: This specifies the number of samples per gradient update. It controls how many samples are processed before the model's parameters are updated.
+
+validation_data=(x_val, y_val): This specifies the validation data to be used during training to evaluate the model's performance. It helps in monitoring the model's generalization and detecting overfitting.
+
+Measuring Training Time:
+
+start_time_m1 = time.time(): This line records the start time of model training.
+
+total_time_m1 = time.time() - start_time_m1: This line calculates the total time taken for model training.
+
+print("The Dense Convolutional Neural Network 1 layer took %.4f seconds to train." % (total_time_m1)): This line prints the total time taken for training the model.
+
+
+
+8-----------------
+
+
+history_dict = history.history:
+
+history is an object returned by the fit() method when training the model.
+
+history.history is a dictionary containing information about the training process, such as the loss and accuracy values at each epoch.
+
+This line assigns this dictionary to the variable history_dict for further analysis.
+
+history_dict.keys():
+
+This line retrieves the keys of the history_dict dictionary.
+
+The keys represent different metrics tracked during the training process, such as 'loss', 'accuracy', 'val_loss', and 'val_accuracy'.
+
+
+
+9--------------------
+
+Extracting Data:
+
+val_acc = history.history['val_acc']: Extracts the validation accuracy values from the training history dictionary.
+
+loss = history.history['loss']: Extracts the training loss values from the training history dictionary.
+
+val_loss = history.history['val_loss']: Extracts the validation loss values from the training history dictionary.
+
+epochs = range(1, len(acc) + 1): Creates a range of numbers from 1 to the total number of epochs.
+
+Plotting Loss:
+
+plt.plot(epochs, loss, 'bo', label='Training loss'): Plots the training loss values against the epochs as blue dots ('bo').
+
+plt.plot(epochs, val_loss, 'b', label='Validation loss'): Plots the validation loss values against the epochs as a solid blue line ('b').
+
+plt.title('Training and validation loss'): Sets the title of the plot.
+
+plt.xlabel('Epochs'): Sets the label for the x-axis, indicating the number of epochs.
+
+plt.ylabel('Loss'): Sets the label for the y-axis, indicating the loss values.
+
+plt.legend(): Displays a legend indicating which line corresponds to training loss and validation loss.
+
+plt.show(): Shows the plot.
+
+
+10----------
+
+
+Extracting Data:
+
+acc_values = history_dict['acc']: Extracts the training accuracy values from the training history dictionary.
+
+val_acc_values = history_dict['val_acc']: Extracts the validation accuracy values from the training history dictionary.
+
+Plotting Accuracy:
+
+plt.plot(epochs, acc, 'bo', label='Training acc'): Plots the training accuracy values against the epochs as blue dots ('bo').
+
+plt.plot(epochs, val_acc, 'b', label='Validation acc'): Plots the validation accuracy values against the epochs as a solid blue line ('b').
+
+plt.title('Training and validation accuracy'): Sets the title of the plot.
+
+plt.xlabel('Epochs'): Sets the label for the x-axis, indicating the number of epochs.
+
+plt.ylabel('Accuracy'): Sets the label for the y-axis, indicating the accuracy values.
+
+plt.legend(): Displays a legend indicating which line corresponds to training accuracy and validation accuracy.
+
+plt.show(): Shows the plot.
+
+
+11-------------------
+
+
+Model Summary:
+
+print(model.summary()): Prints a summary of the neural network model. This summary includes information about the layers, their types, output shapes, and the total number of trainable parameters.
+
+Predictions:
+
+pred = model.predict(x_test): Makes predictions using the trained model on the testing data (x_test).
+
+classes_x = np.argmax(pred, axis=1): Converts the predicted probabilities into class labels by selecting the class with the highest probability for each sample.
+
+Accuracy Calculation:
+
+accuracy_score(y_test, classes_x): Calculates the accuracy of the model's predictions by comparing the predicted class labels (classes_x) with the true labels (y_test). It returns the accuracy score.
+
+Confusion Matrix:
+
+conf_mat = confusion_matrix(y_test, classes_x): Computes the confusion matrix, which is a table used to evaluate the performance of a classification model. It shows the counts of true positive, false positive, true negative, and false negative predictions.
+
+print(conf_mat): Prints the confusion matrix.
+
+Normalized Confusion Matrix Visualization:
+
+conf_mat_normalized = conf_mat.astype('float') / conf_mat.sum(axis=1)[:, np.newaxis]: Normalizes the confusion matrix to better visualize the relative distribution of predictions across different classes.
+
+sns.heatmap(conf_mat_normalized): Creates a heatmap using Seaborn to visualize the normalized confusion matrix.
+
+plt.ylabel('True label'): Sets the label for the y-axis of the heatmap, indicating the true labels.
+
+plt.xlabel('Predicted label'): Sets the label for the x-axis of the heatmap, indicating the predicted labels.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+3
+
+1
+
+
+Mounting Google Drive:
+
+drive.mount('/content/drive'): This line mounts your Google Drive to access datasets stored there.
+
+Defining Batch Specifications:
+
+batch_size = 32: Specifies the number of images to be processed in each batch during training.
+
+img_height, img_width = 224, 224: Specifies the dimensions of input images. These dimensions are commonly used in many CNN architectures like ResNet and VGG.
+
+Defining Dataset Paths:
+
+train_dataset_path and valid_dataset_path: Paths to the training and validation datasets stored in Google Drive.
+
+Loading and Preprocessing Datasets:
+
+tf.keras.preprocessing.image_dataset_from_directory: Loads and preprocesses images from directories. It resizes images to the specified dimensions, batches them, and assigns integer labels to the classes.
+
+validation_split=0.2, subset='training'/'validation': Splits the dataset into training and validation subsets.
+
+smart_resize=True: Resizes images while preserving their aspect ratio.
+
+Defining the CNN Model:
+
+MyCnn = tf.keras.models.Sequential([...]): Defines a sequential model.
+
+It consists of convolutional layers (Conv2D) with ReLU activation functions, max-pooling layers (MaxPooling2D), batch normalization layers (BatchNormalization), and dense layers (Dense) with ReLU and softmax activation functions.
+
+Compiling the Model:
+
+MyCnn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy']): Compiles the model with the Adam optimizer, sparse categorical cross-entropy loss function (suitable for integer-encoded labels), and accuracy metric.
+
+Training the Model:
+
+retVal = MyCnn.fit(training_ds, validation_data=validation_ds, epochs=2): Trains the model on the training dataset (training_ds) and evaluates it on the validation dataset (validation_ds) for 2 epochs.
+
+
+2-----------------------
+
+
+This code plots the training loss and accuracy over the epochs during the model training process. Here's a simple explanation:
+
+
+
+plt.plot(retVal.history['loss'], label='training loss'):
+
+This line plots the training loss values stored in retVal.history['loss'].
+
+The loss represents how well the model is performing on the training data. A lower loss indicates better performance.
+
+plt.plot(retVal.history['accuracy'], label='training accuracy'):
+
+This line plots the training accuracy values stored in retVal.history['accuracy'].
+
+The accuracy represents the proportion of correctly classified samples in the training data. Higher accuracy indicates better performance.
+
+plt.legend():
+
+This line adds a legend to the plot, labeling the lines representing training loss and training accuracy.
+
+
+3--------------------------
+
+Accuracy Vector Initialization:
+
+AccuracyVector = []: Initializes an empty list to store accuracy values.
+
+Figure Size Specification:
+
+plt.figure(figsize=(30, 30)): Sets the size of the figure for plotting the images. In this case, the figure size is set to 30x30 inches.
+
+Looping Through Validation Dataset:
+
+for images, labels in validation_ds.take(1):: Loops through the validation dataset to extract batches of images and their corresponding labels.
+
+Making Predictions:
+
+predictions = MyCnn.predict(images): Uses the trained model (MyCnn) to make predictions on the batch of images (images).
+
+Extracting Predicted Labels:
+
+predlabel = []: Initializes an empty list to store the predicted labels.
+
+prdlbl = []: Initializes an empty list to store the predicted label indices.
+
+Loops through the predictions to extract the predicted labels and their corresponding indices.
+
+Calculating Accuracy:
+
+AccuracyVector = np.array(prdlbl) == labels: Compares the predicted label indices with the actual labels (labels) to calculate the accuracy. It stores the accuracy values in the AccuracyVector.
+
+Plotting Images:
+
+Loops through the images in the batch and plots them along with their predicted and actual labels.
+
+Sets the title of each image as 'Pred:' followed by the predicted label and 'actl:' followed by the actual label.
+
+Plots the images in a 10x4 grid layout.
+
+Displaying the Plot:
+
+plt.show(): Displays the plot containing the images with their predicted and actual labels.
+
+
+4----------------------------
+
+plt.plot(retVal.history['val_loss'], label='validation loss'):
+
+This line plots the validation loss values stored in retVal.history['val_loss'].
+
+The validation loss represents how well the model is performing on the validation data. A lower validation loss indicates better generalization of the model.
+
+plt.plot(retVal.history['val_accuracy'], label='validation accuracy'):
+
+This line plots the validation accuracy values stored in retVal.history['val_accuracy'].
+
+The validation accuracy represents the proportion of correctly classified samples in the validation data. Higher validation accuracy indicates better generalization of the model.
+
+plt.legend():
+
+This line adds a legend to the plot, labeling the lines representing validation loss and validation accuracy.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4
+
+1-----------------------------
+
+Importing Libraries:
+
+import numpy as np: Imports the NumPy library for numerical computations.
+
+import matplotlib.pyplot as plt: Imports the Matplotlib library for plotting.
+
+import pandas as pd: Imports the Pandas library for data manipulation.
+
+from sklearn.preprocessing import MinMaxScaler: Imports the MinMaxScaler from scikit-learn for feature scaling.
+
+from tensorflow.keras.models import Sequential: Imports the Sequential class from TensorFlow/Keras to create a sequential model.
+
+from tensorflow.keras.layers import LSTM, Dense, Dropout: Imports LSTM, Dense, and Dropout layers from TensorFlow/Keras for building the model.
+
+LSTM Model Creation:
+
+The LSTM model is created using the Sequential API, which allows stacking layers sequentially.
+
+model = Sequential(): Initializes a sequential model.
+
+model.add(LSTM(...)): Adds an LSTM layer to the model. LSTM layers are specialized recurrent neural network (RNN) layers capable of learning long-term dependencies in sequential data.
+
+model.add(Dense(...)): Adds a dense (fully connected) layer to the model.
+
+model.add(Dropout(...)): Adds a dropout layer to the model. Dropout helps prevent overfitting by randomly deactivating a fraction of neurons during training.
+
+These layers are stacked to create a neural network architecture suitable for time series forecasting tasks.
+
+Data Preprocessing:
+
+The code does not show the specific preprocessing steps, but typically for time series forecasting, you would preprocess the data by scaling the features using MinMaxScaler and organizing them into sequences or windows that the LSTM model can process
+
+
+5-----------------------------
+
+
+Extracting Training Data:
+
+dataset_train.iloc[:, 1: 2]: This selects a specific column (or feature) from the training dataset. The iloc function is used for selecting data by integer location.
+
+.values: This converts the selected column data into a NumPy array.
+
+Explanation:
+
+The training set consists of features (or independent variables) that will be used to train the neural network model. Here, only one column of the dataset is selected, likely representing a single feature used for prediction.
+
+The .shape attribute returns the shape (dimensions) of the resulting NumPy array, indicating the number of rows and columns. In this case, it provides the shape of the training set array.
+
+
+6--------------------------------
+
+Importing MinMaxScaler:
+
+from sklearn.preprocessing import MinMaxScaler: This line imports the MinMaxScaler from scikit-learn, which is used for scaling numerical features.
+
+Creating MinMaxScaler Object:
+
+sc = MinMaxScaler(feature_range=(0, 1)): This line creates a MinMaxScaler object named sc. The feature_range parameter specifies the range to which the input features will be scaled. Here, it's set to (0, 1), meaning that the scaled features will be within the range of 0 and 1.
+
+Fitting and Transforming Training Data:
+
+training_set_scaled = sc.fit_transform(training_set): This line scales the training data using the MinMaxScaler object created earlier (sc). The fit_transform() method fits the scaler to the training data and then transforms (scales) the training data. In other words, it computes the minimum and maximum values of the training data and then scales the data accordingly to fit within the specified range (0 to 1).
+
+Explanation:
+
+Min-Max scaling is a technique used to normalize the range of independent variables or features of the dataset. It rescales the data such that all features lie within a specified range, usually 0 to 1.
+
+Scaling the data helps in improving the convergence of optimization algorithms used in training neural network models and ensures that each feature contributes equally to the learning process
+
+
+7---------------------------------
+
+Initialization:
+
+X_train = []: Initializes an empty list to store input sequences (X_train).
+
+y_train = []: Initializes an empty list to store output values (y_train).
+
+Looping through the Data:
+
+for i in range(60, len(training_set_scaled)):: Iterates over the training data, starting from the 60th timestep and ending at the length of the scaled training set.
+
+Creating Input-Output Pairs:
+
+X_train.append(training_set_scaled[i-60: i, 0]): Appends a sequence of 60 timesteps (from i-60 to i-1) to X_train. Each sequence serves as an input feature for the model.
+
+y_train.append(training_set_scaled[i, 0]): Appends the output value (at timestep i) to y_train. This corresponds to the next timestep value that the model needs to predict.
+
+Conversion to NumPy Arrays:
+
+X_train, y_train = np.array(X_train), np.array(y_train): Converts the lists X_train and y_train into NumPy arrays, which are compatible with neural network models.
+
+Explanation:
+
+The loop iterates through the scaled training data, creating input-output pairs for the model.
+
+For each iteration, a sequence of 60 timesteps (X_train) is extracted from the scaled training data, and the corresponding output value (y_train) is also extracted.
+
+These input-output pairs are then converted into NumPy arrays for further processing and model training.
+
+
+8-------------------------------
+
+
+Initialization:
+
+regressor = Sequential(): Initializes a sequential model, which is a linear stack of layers.
+
+Adding LSTM Layers:
+
+regressor.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1))): Adds the first LSTM layer to the model.
+
+units=50: Specifies the number of LSTM units (neurons) in the layer. Here, it's set to 50.
+
+return_sequences=True: Indicates that the layer should return sequences rather than just the output of the last timestep. This is necessary when stacking multiple LSTM layers.
+
+input_shape=(X_train.shape[1], 1): Specifies the input shape for the first layer. The input shape is determined by the number of timesteps (X_train.shape[1]) and the number of features (1 in this case).
+
+regressor.add(Dropout(rate=0.2)): Adds a dropout layer to the model. Dropout is a regularization technique that randomly drops a fraction of neurons during training to prevent overfitting.
+
+Adding Additional LSTM Layers:
+
+The subsequent LSTM layers are added similarly to the first layer, with the same number of units and dropout rate.
+
+Each LSTM layer processes sequences of data and learns patterns over multiple timesteps.
+
+Adding the Output Layer:
+
+regressor.add(Dense(units=1)): Adds the output layer to the model.
+
+units=1: Specifies that the output layer has a single neuron, as it predicts a single value (output) for each input sequence.
+
+Explanation:
+
+The LSTM layers capture temporal dependencies and patterns in the input sequences, making them suitable for time series forecasting tasks.
+
+Dropout layers help prevent overfitting by randomly dropping a fraction of neurons during training.
+
+The output layer produces the final prediction for each input sequence.

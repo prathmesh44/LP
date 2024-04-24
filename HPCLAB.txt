@@ -1,0 +1,69 @@
+!nvcc --version
+	nvcc --version is a command used to check the version of the NVIDIA CUDA Compiler (nvcc) installed on your system. It tells you which version of CUDA compiler you have, helping you ensure compatibility with CUDA-based programs or libraries you might want to use.
+
+!pip install git+https://github.com/andreinechaev/nvcc4jupyter.git
+	Running !pip install git+https://github.com/andreinechaev/nvcc4jupyter.git in Jupyter Notebook installs a tool called nvcc4jupyter, which enables you to compile and run CUDA code directly within Jupyter notebooks. This means you can write and test CUDA programs seamlessly alongside your Python code in the same environment
+	
+%load_ext nvcc4jupyter
+The %load_ext nvcc4jupyter command is used in Jupyter Notebook to load the nvcc4jupyter extension, which enables the notebook to recognize and execute CUDA code cells. Once loaded, you can write CUDA code in separate cells and run them just like regular Python code within the notebook.
+
+
+Setup:
+
+The code begins by including necessary header files and defining the vector size N.
+
+Memory Allocation:
+
+Host vectors (h_a, h_b, h_c) are allocated memory on the CPU using malloc().
+
+Device vectors (d_a, d_b, d_c) are allocated memory on the GPU using cudaMalloc().
+
+Data Initialization:
+
+The host vectors (h_a, h_b) are initialized with data. Each element in h_a is set to its index, and each element in h_b is set to twice its index.
+
+Data Transfer:
+
+The data in host vectors (h_a, h_b) is copied to the device vectors (d_a, d_b) using cudaMemcpy().
+
+Kernel Launch:
+
+The vectorAdd kernel function is launched on the GPU using <<<...>>> syntax. This function adds corresponding elements from vectors d_a and d_b, storing the result in vector d_c.
+
+Data Retrieval:
+
+The result vector d_c is copied from the GPU to the CPU using cudaMemcpy().
+
+Verification:
+
+The code prints the first 10 elements of vectors h_a, h_b, and their sum (h_a[i] + h_b[i]). This is done to verify that the addition was performed correctly.
+
+Memory Deallocation:
+
+Memory allocated on the GPU (d_a, d_b, d_c) is freed using cudaFree().
+
+Memory allocated on the CPU (h_a, h_b, h_c) is freed using free().
+
+
+
+
+
+----------------------------
+Setup:
+The code includes necessary header files and defines the matrix size N.
+Memory Allocation:
+Host matrices (h_a, h_b, h_c) are allocated memory on the CPU using malloc().
+Device matrices (d_a, d_b, d_c) are allocated memory on the GPU using cudaMalloc().
+Data Initialization:
+The host matrices (h_a, h_b) are initialized with data. Each element in h_a is set to its index, and each element in h_b is set to twice its index.
+Data Transfer:
+The data in host matrices (h_a, h_b) is copied to the device matrices (d_a, d_b) using cudaMemcpy().
+Kernel Launch:
+The matrixMul kernel function is launched on the GPU using <<<...>>> syntax. This function performs matrix multiplication between matrices d_a and d_b, storing the result in matrix d_c.
+Data Retrieval:
+The result matrix d_c is copied from the GPU to the CPU using cudaMemcpy().
+Verification:
+The code prints the first 4x4 elements of matrix h_c for verification. This is done to ensure that the matrix multiplication was performed correctly.
+Memory Deallocation:
+Memory allocated on the GPU (d_a, d_b, d_c) is freed using cudaFree().
+Memory allocated on the CPU (h_a, h_b, h_c) is freed using free().
